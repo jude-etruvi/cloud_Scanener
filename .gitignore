@@ -1,0 +1,26 @@
+﻿# Credentials - NEVER COMMIT THESE
+credentials/
+*.json
+*service-account*.json
+*.pem
+*.key
+
+# Environment files
+.env
+.env.local
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Prowler outputs
+output/
+reports/
+prowler-output/
+scoutsuite-output/
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db

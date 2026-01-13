@@ -1,0 +1,44 @@
+# Cloud Security Scanner Configuration
+
+# Output settings
+output:
+  reports_dir: "reports"
+  format: ["json", "html"]
+  timestamp_format: "%Y%m%d_%H%M%S"
+
+# Scanner settings
+scanners:
+  prowler:
+    enabled: true
+    output_dir: "prowler-output"
+    severity_threshold: ""  # Leave empty to see ALL findings, or set to: low, medium, high, critical
+
+  cloudsploit:
+    enabled: true
+    output_dir: "cloudsploit-output"
+
+  steampipe:
+    enabled: false  # Disabled - install Steampipe from https://steampipe.io/downloads to enable
+    output_dir: "steampipe-output"
+    benchmark: "cis_v200"  # cis_v140, cis_v150, cis_v200, nist_800_53_rev_5, etc.
+
+# Cloud provider settings
+providers:
+  aws:
+    enabled: true
+    regions: "all"  # or specify: ["us-east-1", "us-west-2"]
+    services: "all"  # or specify list of services
+
+  azure:
+    enabled: true
+    subscriptions: "all"  # or specify subscription IDs
+
+  gcp:
+    enabled: true
+    projects: "all"  # or specify project IDs
+
+# Logging
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  file: "logs/scanner.log"
+  console: true

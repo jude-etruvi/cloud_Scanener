@@ -1,0 +1,76 @@
+# =============================================================================
+# Cloud Security Scanner - Dependencies
+# =============================================================================
+# Last updated: 2026-01-09
+# Python version required: >=3.9, <3.13
+# Node.js required: >=14.0 (for CloudSploit)
+# Steampipe required: Latest version
+
+# =============================================================================
+# Core Security Scanners (Latest Versions)
+# =============================================================================
+prowler==5.16.1          # Multi-cloud security scanner (450+ AWS, 200+ Azure, 150+ GCP checks)
+# CloudSploit - Install via: npm install -g cloudsploit
+# Steampipe - Install via: https://steampipe.io/downloads
+
+# =============================================================================
+# AWS SDK
+# =============================================================================
+boto3>=1.35.76           # AWS SDK for Python
+botocore>=1.35.76        # Low-level AWS SDK
+awscli>=1.36.6           # AWS Command Line Interface
+
+# =============================================================================
+# Azure SDKs
+# =============================================================================
+azure-identity>=1.19.0          # Azure authentication
+azure-mgmt-resource>=23.2.0     # Azure Resource Management
+azure-mgmt-security>=7.0.0      # Azure Security Center
+azure-mgmt-storage>=21.2.1      # Azure Storage Management
+azure-mgmt-network>=27.0.0      # Azure Network Management
+azure-mgmt-compute>=33.0.0      # Azure Compute Management
+azure-cli-core>=2.66.0          # Azure CLI Core
+
+# =============================================================================
+# GCP SDKs
+# =============================================================================
+google-cloud-asset>=3.26.3              # GCP Asset Inventory
+google-cloud-storage>=2.18.2            # GCP Cloud Storage
+google-cloud-securitycenter>=1.24.0  # GCP Security Command Center
+google-auth>=2.36.0                     # GCP Authentication
+
+# =============================================================================
+# CLI Framework & Utilities
+# =============================================================================
+click>=8.1.8             # Command-line interface framework
+pyyaml>=6.0.2            # YAML parser for configuration files
+python-dateutil>=2.9.0   # Date/time utilities
+colorama>=0.4.6          # Cross-platform colored terminal text
+tabulate>=0.9.0          # Pretty-print tabular data
+requests>=2.32.3         # HTTP library
+
+# =============================================================================
+# Reporting & Visualization
+# =============================================================================
+jinja2>=3.1.4            # Template engine for HTML reports
+reportlab>=4.2.5         # PDF generation (optional)
+markdown>=3.7            # Markdown processing
+
+# =============================================================================
+# Logging & Monitoring
+# =============================================================================
+python-json-logger>=2.0.7   # JSON structured logging
+
+# =============================================================================
+# Security & Compliance Frameworks
+# =============================================================================
+checkov>=3.2.350         # Infrastructure-as-Code security scanner (optional, for Approach 1)
+
+# =============================================================================
+# Development & Testing (Optional - uncomment if needed)
+# =============================================================================
+# pytest>=8.3.4
+# pytest-cov>=6.0.0
+# black>=24.10.0
+# flake8>=7.1.1
+# mypy>=1.13.0
