@@ -35,11 +35,10 @@ def interactive_mode():
     click.echo("  1. AWS (Amazon Web Services)")
     click.echo("  2. Azure (Microsoft Azure)")
     click.echo("  3. GCP (Google Cloud Platform)")
-    click.echo("  4. All (Scan all providers)")
     click.echo()
 
-    provider_choice = click.prompt("Enter your choice (1-4)", type=int, default=1)
-    provider_map = {1: 'aws', 2: 'azure', 3: 'gcp', 4: 'all'}
+    provider_choice = click.prompt("Enter your choice (1-3)", type=int, default=1)
+    provider_map = {1: 'aws', 2: 'azure', 3: 'gcp'}
     provider = provider_map.get(provider_choice, 'aws')
 
     click.echo(f"\n✓ Selected: {provider.upper()}\n")
@@ -49,16 +48,15 @@ def interactive_mode():
     click.echo("-" * 70)
     click.echo("Which tools do you want to use?")
     click.echo("  1. Prowler only (Python-based, 800+ checks)")
-    click.echo("  2. CloudSploit only (Node.js-based, 700+ checks)")
+    click.echo("  2. CloudSploit only (Node.js-based, 1000+ checks)")
     click.echo("  3. Prowler + CloudSploit (Recommended - Maximum coverage)")
-    click.echo("  4. All tools (Prowler + CloudSploit + Steampipe)")
     click.echo()
 
-    tool_choice = click.prompt("Enter your choice (1-4)", type=int, default=3)
+    tool_choice = click.prompt("Enter your choice (1-3)", type=int, default=3)
 
-    use_prowler = tool_choice in [1, 3, 4]
-    use_cloudsploit = tool_choice in [2, 3, 4]
-    use_steampipe = tool_choice == 4
+    use_prowler = tool_choice in [1, 3]
+    use_cloudsploit = tool_choice in [2, 3]
+    use_steampipe = False
 
     tools = []
     if use_prowler:
@@ -185,20 +183,13 @@ def configure_gcp_credentials():
     click.echo("\nSTEP 3c: Configure GCP Credentials")
     click.echo("-" * 70)
     click.echo("How do you want to authenticate with GCP?")
-    click.echo("  1. Use Application Default Credentials (gcloud auth)")
-    click.echo("  2. Use service account key file")
-    click.echo("  3. Use environment variables (already set)")
-    click.echo("  4. Skip (use default credentials)")
+    click.echo("  1. Use service account key file")
+    click.echo("  2. Use environment variables (already set)")
     click.echo()
 
-    cred_choice = click.prompt("Enter your choice (1-4)", type=int, default=1)
+    cred_choice = click.prompt("Enter your choice (1-2)", type=int, default=1)
 
     if cred_choice == 1:
-        project_id = click.prompt("GCP Project ID")
-        click.echo("✓ Will use Application Default Credentials")
-        return {'type': 'adc', 'project_id': project_id}
-
-    elif cred_choice == 2:
         key_file = click.prompt("Path to service account key file (JSON)")
         project_id = click.prompt("GCP Project ID")
 
@@ -208,13 +199,9 @@ def configure_gcp_credentials():
         click.echo("✓ Service account key configured")
         return {'type': 'key_file', 'key_file': key_file, 'project_id': project_id}
 
-    elif cred_choice == 3:
+    else:
         click.echo("✓ Using existing environment variables")
         return {'type': 'env', 'already_set': True}
-
-    else:
-        click.echo("✓ Using default credentials")
-        return {'type': 'default'}
 
 
 @click.command()
@@ -276,6 +263,7 @@ def main(interactive, provider, config, profile, project_id, subscription_id, ve
     # Run interactive mode if requested or if no provider specified
     credentials_config = None
     if interactive or provider is None:
+        interactive = True  # Mark as interactive mode
         provider, use_prowler, use_cloudsploit, use_steampipe, credentials_config, verbose_mode = interactive_mode()
         verbose = verbose or verbose_mode
 
@@ -298,7 +286,6 @@ def main(interactive, provider, config, profile, project_id, subscription_id, ve
     if interactive or provider is None:
         config_data['scanners']['prowler']['enabled'] = use_prowler
         config_data['scanners']['cloudsploit']['enabled'] = use_cloudsploit
-        config_data['scanners']['steampipe']['enabled'] = use_steampipe
 
     # Override output directory if specified
     if output_dir:

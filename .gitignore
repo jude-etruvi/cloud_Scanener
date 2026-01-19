@@ -14,11 +14,9 @@ venv/
 __pycache__/
 *.pyc
 
-# Prowler outputs
+# Scanner outputs
 output/
 reports/
-prowler-output/
-scoutsuite-output/
 logs/
 
 # OS files

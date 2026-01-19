@@ -10,7 +10,6 @@ from pathlib import Path
 
 from scanners.prowler_scanner import ProwlerScanner
 from scanners.cloudsploit_scanner import CloudSploitScanner
-from scanners.steampipe_scanner import SteampipeScanner
 from reports.generator import ReportGenerator
 
 
@@ -31,7 +30,6 @@ class ScannerOrchestrator:
         # Initialize scanners
         self.prowler = ProwlerScanner(config) if config['scanners']['prowler']['enabled'] else None
         self.cloudsploit = CloudSploitScanner(config) if config['scanners']['cloudsploit']['enabled'] else None
-        self.steampipe = SteampipeScanner(config) if config['scanners']['steampipe']['enabled'] else None
 
         # Initialize report generator
         self.report_generator = ReportGenerator(config)
@@ -50,8 +48,6 @@ class ScannerOrchestrator:
             directories.append(self.config['scanners']['prowler']['output_dir'])
         if self.cloudsploit:
             directories.append(self.config['scanners']['cloudsploit']['output_dir'])
-        if self.steampipe:
-            directories.append(self.config['scanners']['steampipe']['output_dir'])
 
         for directory in directories:
             Path(directory).mkdir(parents=True, exist_ok=True)
@@ -116,7 +112,6 @@ class ScannerOrchestrator:
             'provider': provider,
             'prowler': None,
             'cloudsploit': None,
-            'steampipe': None,
             'summary': {
                 'failed': 0,
                 'critical': 0,
@@ -156,17 +151,6 @@ class ScannerOrchestrator:
             except Exception as e:
                 self.logger.error(f"CloudSploit scan failed for {provider}: {str(e)}")
                 provider_results['cloudsploit'] = {'error': str(e)}
-
-        # Run Steampipe scan
-        if self.steampipe:
-            try:
-                self.logger.info(f"Running Steampipe scan for {provider.upper()}...")
-                steampipe_results = self.steampipe.scan(provider, **scan_kwargs)
-                provider_results['steampipe'] = steampipe_results
-                self._update_summary(provider_results['summary'], steampipe_results)
-            except Exception as e:
-                self.logger.error(f"Steampipe scan failed for {provider}: {str(e)}")
-                provider_results['steampipe'] = {'error': str(e)}
 
         return provider_results
 

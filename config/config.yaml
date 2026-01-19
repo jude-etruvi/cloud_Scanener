@@ -2,7 +2,7 @@
 
 # Output settings
 output:
-  reports_dir: "reports"
+  reports_dir: "reports/finalreport"
   format: ["json", "html"]
   timestamp_format: "%Y%m%d_%H%M%S"
 
@@ -10,17 +10,12 @@ output:
 scanners:
   prowler:
     enabled: true
-    output_dir: "prowler-output"
+    output_dir: "reports/prowler"
     severity_threshold: ""  # Leave empty to see ALL findings, or set to: low, medium, high, critical
 
   cloudsploit:
     enabled: true
-    output_dir: "cloudsploit-output"
-
-  steampipe:
-    enabled: false  # Disabled - install Steampipe from https://steampipe.io/downloads to enable
-    output_dir: "steampipe-output"
-    benchmark: "cis_v200"  # cis_v140, cis_v150, cis_v200, nist_800_53_rev_5, etc.
+    output_dir: "reports/cloudsploit"
 
 # Cloud provider settings
 providers:
