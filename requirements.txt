@@ -9,7 +9,7 @@
 # =============================================================================
 # Core Security Scanners (Latest Versions)
 # =============================================================================
-prowler==5.16.1          # Multi-cloud security scanner (450+ AWS, 200+ Azure, 150+ GCP checks)
+prowler==5.37.0          # Multi-cloud security scanner (450+ AWS, 200+ Azure, 150+ GCP checks)
 # CloudSploit - Install via: npm install -g cloudsploit
 # Steampipe - Install via: https://steampipe.io/downloads
 
